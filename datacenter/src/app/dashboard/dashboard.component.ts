@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 interface Metric {
   used: number;
@@ -16,6 +16,10 @@ interface Node {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit, OnDestroy {
+  @Output() onRefresh: EventEmitter<Date> = new EventEmitter<Date>();
+
+
+
   cpu: Metric;
   mem: Metric;
   cluster1: Node[];
@@ -37,6 +41,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   generateData(): void {
+    this.onRefresh.emit(new Date());
     this.cluster1 = [];
     this.cluster2 = [];
     this.cpu = { used: 0, available: 0};
